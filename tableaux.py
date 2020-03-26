@@ -38,24 +38,23 @@ def Inorder(f):
 
 
 def StringtoTree(A):
-    Conectivos = ['O','Y','>']
-    Pila = []
-    for c in A:
-        if c in letrasProposicionales:
-            Pila.append(Tree(c,None,None))
+    conect = ['O', 'Y', '>', '<']
+    trees = []
+    for x in A:
+        if x in letrasProposicionales:
+            trees.append(Tree(x, None, None))
 
-        elif c == '-':
-            FormulaAux = Tree (c,None,Pila[-1])
-            del Pila[-1]
-            Pila.append(FormulaAux)
+        elif x == '-':
+            Aux = Tree(x, None, trees[0])
+            trees.clear()
+            trees.append(Aux)
 
-        elif c in Conectivos:
-            FormulaAux = Tree (c, Pila[-1], Pila[-2])
-            del Pila[-1]
-            del Pila[-1]
-            Pila.append(FormulaAux)
+        elif x in conect:
+            Aux = Tree (x, trees[0], trees[1])
+            trees.clear()
+            trees.append(Aux)
 
-    return Pila[-1]
+    return trees[0]
 			
 def imprime_hoja(H):
 	cadena = "{"
@@ -172,5 +171,3 @@ def Tableaux(f):
         else:
             clasifica_y_extiende(res)            
     return listaInterpsVerdaderas
-
-
