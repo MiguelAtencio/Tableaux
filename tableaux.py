@@ -32,20 +32,36 @@ def Inorder(f):
 	else:
 		return "(" + Inorder(f.left) + f.label + Inorder(f.right) + ")"
 
-def StringtoTree(A):
-    # Crea una formula como tree dada una formula como cadena escrita en notacion polaca inversa
-    # Input: A, lista de caracteres con una formula escrita en notacion polaca inversa
-             # letrasProposicionales, lista de letras proposicionales
-    # Output: formula como tree
-
-	# OJO: DEBE INCLUIR SU CÓDIGO DE STRING2TREE EN ESTA PARTE!!!!!
-
-	p = letrasProposicionales[0] # ELIMINE ESTA LINEA LUEGO DE INCLUIR EL CODIGO DE STRING2TREE
-	return Tree(p, None, None) # ELIMINE ESTA LINEA LUEGO DE INCLUIR EL CODIGO DE STRING2TREE
-
 ##############################################################################
 # Definición de funciones de tableaux
 ##############################################################################
+
+
+def StringtoTree(A):
+    Conectivos = ['O','Y','>']
+    Pila = []
+    for c in A:
+        if c in letrasProposicionales:
+            Pila.append(Tree(c,None,None))
+
+        elif c == '-':
+            FormulaAux = Tree (c,None,Pila[-1])
+            del Pila[-1]
+            Pila.append(FormulaAux)
+
+        elif c in Conectivos:
+            FormulaAux = Tree (c, Pila[-1], Pila[-2])
+            del Pila[-1]
+            del Pila[-1]
+            Pila.append(FormulaAux)
+
+    return Pila[-1]
+			
+
+
+
+
+
 
 def imprime_hoja(H):
 	cadena = "{"
@@ -86,7 +102,7 @@ def es_literal(f):
 
 def no_literales(l):
 	for i in l:
-            if es_literal(i)==False:
+            if es_literal(i)==0:
                 return i
 	return None
 
@@ -145,8 +161,22 @@ def Tableaux(f):
 	#		 verdadera a f
 	global listaHojas
 	global listaInterpsVerdaderas
-
-	A = string2Tree(f)
+	
+	A = stringtoTree(f)
 	listaHojas = [[A]]
 
+	while len(listaHojas) > 0:
+		hoja = choice(listaHojas)
+		
+		if no_literales(hoja) == None:
+			if par_complementario(hoja):
+				listaHojas.remove(hoja)
+			else:
+				listaInterpsVerdaderas.append(hoja)
+				listaHojas.remove(hoja)
+		else:
+			clasifica_y_extiende(f)
+	
 	return listaInterpsVerdaderas
+
+
