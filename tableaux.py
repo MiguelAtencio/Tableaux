@@ -57,12 +57,6 @@ def StringtoTree(A):
 
     return Pila[-1]
 			
-
-
-
-
-
-
 def imprime_hoja(H):
 	cadena = "{"
 	primero = True
@@ -124,7 +118,7 @@ def classif(f):
         return '3Beta'   
          
 def clasifica_y_extiende(f):
-    if es_literal(f)==0:
+    if es_literal(f)==False:
         for i in listaHojas:
             if f in i:
                 if classif(f)=='1Alpha':
@@ -132,51 +126,51 @@ def clasifica_y_extiende(f):
                     i.append(f.right.right)
                 elif classif(f)=='2Alpha':
                     i.remove(f)
-                    i.append(f.left,f.right)
+                    i.append(f.left)
+                    i.append(f.right)
                 elif classif(f)=='3Alpha':
                     i.remove(f)
-                    i.append(Tree('-',None,f.right.left),Tree('-',None,f.right.right))
+                    i.append(Tree('-',None,f.right.left))
+                    i.append(Tree('-',None,f.right.right))
                 elif classif(f)=='4Alpha':
                     i.remove(f)
-                    i.append(f.right.left,Tree('-',None,f.right.right))
-                #falta corregir para cuando la formula es beta!!!!!
+                    i.append(f.right.left)
+                    i.append(Tree('-',None,f.right.right))
                 elif classif(f)=='1Beta':
-                    listaHojas.remove([f])
-                    listaHojas.append([Tree('-',None,f.right.left)])
-                    listaHojas.append([Tree('-',None,f.right.right)])
+                    i.remove(f)
+                    k=i[:]
+                    i.append(Tree('-',None,f.right.left))
+                    k.append(Tree('-',None,f.right.right))
+                    listaHojas.append(k)
                 elif classif(f)=='2Beta':
-                    listaHojas.remove([f])
-                    listaHojas.append([f.left])
-                    listaHojas.append([f.right])
+                    i.remove(f)
+                    k=i[:]
+                    i.append(f.left)
+                    k.append(f.right)
+                    listaHojas.append(k)
                 elif classif(f)=='3Beta':
-                    listaHojas.remove([f])
-                    listaHojas.append([Tree('-',None,f.left)])
-                    listaHojas.append([f.right])
+                    i.remove(f)
+                    k=i[:]
+                    i.append(Tree('-',None,f.left))
+                    k.append(f.right)
+                    listaHojas.append(k)
 
 def Tableaux(f):
-
-	# Algoritmo de creacion de tableau a partir de lista_hojas
-	# Imput: - f, una fórmula como string en notación polaca inversa
-	# Output: interpretaciones: lista de listas de literales que hacen
-	#		 verdadera a f
-	global listaHojas
-	global listaInterpsVerdaderas
-	
-	A = StringtoTree(f)
-	listaHojas = [[A]]
-
-	while len(listaHojas) > 0:
-		hoja = choice(listaHojas)
-		
-		if no_literales(hoja) == None:
-			if par_complementario(hoja):
-				listaHojas.remove(hoja)
-			else:
-				listaInterpsVerdaderas.append(hoja)
-				listaHojas.remove(hoja)
-		else:
-			clasifica_y_extiende(f)
-	
-	return listaInterpsVerdaderas
+    global listaHojas
+    global listaInterpsVerdaderas
+    A = string2Tree(f)
+    listaHojas = [[A]]
+    while len(listaHojas)>0:
+        hoja=choice(listaHojas)
+        res=no_literales(hoja)
+        if res==None:
+            if par_complementario(hoja):
+                listaHojas.remove(hoja)
+            else:
+                listaInterpsVerdaderas.append(hoja)
+                listaHojas.remove(hoja)
+        else:
+            clasifica_y_extiende(res)            
+    return listaInterpsVerdaderas
 
 
