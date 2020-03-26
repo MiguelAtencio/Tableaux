@@ -86,7 +86,7 @@ def es_literal(f):
 
 def no_literales(l):
 	for i in l:
-            if es_literal(i)==0:
+            if es_literal(i)==False:
                 return i
 	return None
 
