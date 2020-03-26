@@ -50,7 +50,7 @@ def StringtoTree(A):
             trees.append(Aux)
 
         elif x in conect:
-            Aux = Tree (x, trees[0], trees[1])
+            Aux = Tree (x, trees[1], trees[0])
             trees.clear()
             trees.append(Aux)
 
