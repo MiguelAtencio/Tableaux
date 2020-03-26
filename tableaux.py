@@ -162,7 +162,7 @@ def Tableaux(f):
 	global listaHojas
 	global listaInterpsVerdaderas
 	
-	A = stringtoTree(f)
+	A = StringtoTree(f)
 	listaHojas = [[A]]
 
 	while len(listaHojas) > 0:
