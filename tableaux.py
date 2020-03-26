@@ -158,7 +158,7 @@ def clasifica_y_extiende(f):
 def Tableaux(f):
     global listaHojas
     global listaInterpsVerdaderas
-    A = string2Tree(f)
+    A = StringtoTree(f)
     listaHojas = [[A]]
     while len(listaHojas)>0:
         hoja=choice(listaHojas)
