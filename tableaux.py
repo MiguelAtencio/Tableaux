@@ -45,16 +45,16 @@ def StringtoTree(A):
             trees.append(Tree(x, None, None))
 
         elif x == '-':
-            Aux = Tree(x, None, trees[0])
+            Aux = Tree(x, None, trees[-1])
             trees.clear()
             trees.append(Aux)
 
         elif x in conect:
-            Aux = Tree (x, trees[1], trees[0])
+            Aux = Tree (x, trees[-1], trees[-2])
             trees.clear()
             trees.append(Aux)
 
-    return trees[0]
+    return trees[-1]
 			
 def imprime_hoja(H):
 	cadena = "{"
